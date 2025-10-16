@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echoes of Hope - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-home.css') }}">
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      padding: 15px 50px;
+      border-bottom: 1px solid #333;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #f5f5f5;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar a:hover,
+    .navbar a.active {
+      color: #ffc107;
+    }
+    .nav-center {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #f8f9fa;
+    }
+    .btn {
+      background-color: #ffc107;
+      color: #000;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #ffdb58;
+    }
+    .home-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      padding: 30px 80px;
+    }
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .post-input-box {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+    .post-input-box select,
+    .post-input-box textarea {
+      background: #2b2b2b;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      resize: none;
+      font-size: 1rem;
+    }
+    .btn-post {
+      align-self: flex-end;
+      background: #ffc107;
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-post:hover {
+      background: #ffdb58;
+    }
+    .post {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .post-header img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+    .post-type-label {
+      background: #ffc107;
+      color: #000;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .post-body {
+      margin: 10px 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .post-actions {
+      display: flex;
+      gap: 20px;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .comments {
+      background: #222;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .comment {
+      padding: 5px 0;
+      border-bottom: 1px solid #333;
+    }
+    .comment-form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .comment-form input {
+      background: #2b2b2b;
+      border: none;
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+    .btn-comment {
+      background: #ffc107;
+      border: none;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .sidebar {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+    .sidebar img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .sidebar h3 {
+      margin: 0;
+    }
+    .sidebar p {
+      color: #ccc;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
+      <li><a href="{{ url_for('stories') }}">Stories</a></li>
+    </ul>
+
+    <div class="nav-center">ECHOES OF HOPE</div>
+
+    <ul class="nav-right">
+      <li><a href="about">About</a></li>
+
+      {% if session.username %}
+        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
+      {% else %}
+        <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="home-container">
+    <div class="feed">
+      <!-- CREATE POST -->
+      <form class="post-input-box" action="{{ url_for('create_post') }}" method="POST">
+        <select name="type" required>
+          <option value="story">Story</option>
+          <option value="quote">Quote</option>
+        </select>
+        <textarea name="text" placeholder="Share your thoughts, story, or quote..." required></textarea>
+        <button type="submit" class="btn-post">Post</button>
+      </form>
+
+      <!-- POSTS LOOP -->
+      {% for post in posts %}
+      <div class="post">
+        <div class="post-header">
+          <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
+          <span class="username">{{ post.username }}</span>
+          <span class="post-type-label">{{ post.type | capitalize }}</span>
+        </div>
+
+        <div class="post-body">
+          <p>{{ post.text }}</p>
+        </div>
+
+        <div class="post-actions">
+          <span>❤️</span>
+          <span>💬</span>
+        </div>
+
+        <div class="comments">
+          {% for c in post.comments %}
+            <div class="comment"><strong>{{ c.username }}:</strong> {{ c.text }}</div>
+          {% endfor %}
+        </div>
+
+        <!-- COMMENT FORM -->
+        <form class="comment-form" action="{{ url_for('post_comment') }}" method="POST">
+          <input type="hidden" name="post_id" value="{{ post.id }}">
+          <input type="text" name="username" placeholder="Your name" required>
+          <input type="text" name="text" placeholder="Write a comment..." required>
+          <button type="submit" class="btn-comment">Comment</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <img src="{{ url_for('static', filename='user1.jpg') }}" alt="Profile">
+      {% if session.username %}
+        <h3>{{ session.username }}</h3>
+        <p>Welcome back!</p>
+      {% else %}
+        <h3>Guest</h3>
+        <p>Log in to share your stories & quotes.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

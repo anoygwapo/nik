@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echoes of Hope - Quotes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-home.css') }}">
+  <style>
+    body { background-color: #757474; color: #fff; font-family: 'Open Sans', sans-serif; margin: 0; padding: 0; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #111; padding: 15px 50px; border-bottom: 1px solid #333; }
+    .navbar ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
+    .navbar a { text-decoration: none; color: #f5f5f5; font-weight: 500; transition: color 0.3s; }
+    .navbar a:hover, .navbar a.active { color: #ffc107; }
+    .nav-center { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; color: #f8f9fa; }
+    .container { padding: 30px 80px; }
+    .post { background: #1a1a1a; padding: 20px; border-radius: 15px; box-shadow: 0 0 10px rgba(255,255,255,0.05); margin-bottom: 20px; }
+    .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .post-header img { width: 45px; height: 45px; border-radius: 50%; }
+    .post-type-label { background: #ffc107; color: rgba(19, 5, 5, 0.4); font-size: 0.8rem; padding: 3px 8px; border-radius: 5px; }
+    .post-body { margin: 10px 0; font-size: 1rem; line-height: 1.5; font-style: italic; color: #f1f1f1; }
+    .comments { background: #222; padding: 10px; border-radius: 10px; margin-top: 10px; }
+    .comment { padding: 5px 0; border-bottom: 1px solid #333; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a class="active" href="{{ url_for('quotes') }}">Quotes</a></li>
+      <li><a href="{{ url_for('stories') }}">Stories</a></li>
+    </ul>
+
+    <div class="nav-center">ECHOES OF HOPE</div>
+
+    <ul class="nav-right">
+      {% if 'username' in session %}
+        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
+      {% else %}
+        <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <h2 style="font-family:'Playfair Display',serif; color:#e6e4d9;">Quotes Collection</h2>
+    <p>Read heartfelt quotes shared by our members.</p>
+
+    {% for post in posts %}
+    <div class="post">
+      <div class="post-header">
+        <img src="{{ url_for('static', filename='user1.jpg') }}" alt="User">
+        <span><strong>{{ post['username'] }}</strong></span>
+        <span class="post-type-label">{{ post['type'] | capitalize }}</span>
+      </div>
+      <div class="post-body">“{{ post['text'] }}”</div>
+      <div class="comments">
+        <h4>Comments:</h4>
+        {% for c in post.comments %}
+          <div class="comment"><strong>{{ c['username'] }}:</strong> {{ c['text'] }}</div>
+        {% else %}
+          <p>No comments yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+      <p>No quotes posted yet.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>

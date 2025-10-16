@@ -1,0 +1,179 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #D8CFBC;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #1F1D20;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-center {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+/* Buttons */
+.btn {
+  background: #D8CFBC;
+  color: #1F1D20;
+  border: none;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #cfc7b5;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #1F1D20 65%, #D8CFBC 35%);
+  padding: 3rem 8%;
+  color: #fff;
+}
+
+/* Hero Left */
+.hero-left img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 0px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* Hero Right */
+.hero-right {
+  margin-left: 3rem;
+  max-width: 500px;
+}
+
+.hero-right h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #f6f4ee;
+}
+
+.hero-right p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  color: #ddd;
+}
+
+/* Main Button */
+.main-btn {
+  background-color: #ffffff;
+  color: #1F1D20;
+  font-weight: 700;
+  padding: 10px 35px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.main-btn:hover {
+  background-color: #D8CFBC;
+  color: #1F1D20;
+  transform: scale(1.05);
+}
+
+/* Subtext (Sign in to share...) */
+.subtext {
+  margin-top: 1.5rem;
+  color: #ffffff;
+  font-size: 10.05rem;
+  line-height: 1.6;
+  font-style: italic;
+  font-weight: 1000;
+  text-shadow: 0 0 10px rgb(117, 116, 116);
+}
+.auth-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #1f1d20;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.auth-container h2 {
+  margin-bottom: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+}
+
+.auth-container form div {
+  margin-bottom: 1rem;
+}
+
+.auth-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+}
+
+.flashes {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.flashes li {
+  padding: 0.5rem;
+}
+
+.flashes li.error {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+.flashes li.success {
+  background-color: #27ae60;
+  color: #fff;
+}

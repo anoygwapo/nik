@@ -1,0 +1,261 @@
+/* GENERAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0d0d0d;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 15px 60px;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  color: #ffc107;
+}
+
+.nav-center {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #f8f9fa;
+}
+
+.btn {
+  background-color: #ffc107;
+  color: #000;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #ffdb58;
+}
+
+/* LAYOUT */
+.home-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  padding: 40px 80px;
+}
+
+/* FEED SECTION */
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* POST INPUT BOX */
+.post-input-box {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.post-input-box select {
+  background: #2b2b2b;
+  border: none;
+  color: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.post-input-box textarea {
+  background: #2b2b2b;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  resize: none;
+  font-size: 1rem;
+  min-height: 80px;
+}
+
+.btn-post {
+  align-self: flex-end;
+  background: #ffc107;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-post:hover {
+  background: #ffdb58;
+}
+
+/* INDIVIDUAL POST */
+.post {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.post-header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.username {
+  font-weight: 600;
+  color: #ffc107;
+}
+
+.post-type-label {
+  background: #ffc107;
+  color: #000;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.post-body {
+  margin: 10px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ACTIONS */
+.post-actions {
+  display: flex;
+  gap: 20px;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.post-actions span:hover {
+  transform: scale(1.1);
+}
+
+/* COMMENTS */
+.comments {
+  background: #222;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.comment {
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+  font-size: 0.95rem;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+/* COMMENT FORM */
+.comment-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment-form input {
+  background: #2b2b2b;
+  border: none;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.btn-comment {
+  background: #ffc107;
+  border: none;
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-comment:hover {
+  background: #ffdb58;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+
+.sidebar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.sidebar h3 {
+  margin: 0;
+}
+
+.sidebar p {
+  color: #ccc;
+  font-size: 0.95rem;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

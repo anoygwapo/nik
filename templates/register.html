@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In — Echoes of Hope</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #2b2523; /* same dark tone from your navbar */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar (same as index) */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e1917;
+      padding: 0.8rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-left, .nav-right {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #f1f1f1;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .navbar a.active, .navbar a:hover {
+      color: #b88c74;
+    }
+
+    .nav-center {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      color: #f6e6d8;
+    }
+
+    /* Login section */
+    .auth-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 80px);
+      background: linear-gradient(to right, #1e1917, #2d2624);
+    }
+
+    .auth-card {
+      background: #3a312d;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .auth-card h2 {
+      font-family: 'Playfair Display', serif;
+      color: #f6e6d8;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .auth-card input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: #4b3f3a;
+      color: #fff;
+    }
+
+    .auth-card input::placeholder {
+      color: #d5c8be;
+    }
+
+    .btn {
+      background: #b88c74;
+      color: #1e1917;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem;
+      width: 100%;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #d3a88b;
+    }
+
+    p {
+      margin-top: 1rem;
+      color: #e8ded6;
+    }
+
+    p a {
+      color: #f6e6d8;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Registration Popup */
+    .register-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .register-form {
+      background: #3a312d;
+      padding: 2rem 2.5rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      color: #fff;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+    }
+
+    .register-form h2 {
+      font-family: 'Playfair Display', serif;
+      color: #f6e6d8;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.6rem;
+    }
+
+    .register-form input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: #4b3f3a;
+      color: #fff;
+    }
+
+    .register-form input::placeholder {
+      color: #d5c8be;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #b88c74;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="#">Quotes</a></li>
+      <li><a href="#">Stories</a></li>
+    </ul>
+
+    <div class="nav-center">ECHOES OF HOPE</div>
+
+    <ul class="nav-right">
+      <li><a href="about.html">About</a></li>
+
+    </ul>
+  </nav>
+
+  <!-- Login Section -->
+  <section class="auth-section">
+    <div class="auth-card">
+      <h2>Log In</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for category, msg in messages %}
+              <li class="{{ category }}">{{ msg }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="{{ url_for('login') }}">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button class="btn" type="submit">Log In</button>
+      </form>
+
+      <p>Don’t have an account? <a id="open-register">Create new account</a></p>
+    </div>
+  </section>
+
+  <!-- Registration Popup -->
+  <div class="register-popup" id="register-popup">
+    <div class="register-form">
+      <button class="close-btn" id="close-register">&times;</button>
+      <h2>Create Account</h2>
+      <form method="post" action="{{ url_for('register') }}">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="password" name="password" placeholder="New password" required>
+        <input type="password" name="confirm_password" placeholder="Confirm password" required>
+        <button class="btn" type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('open-register');
+    const closeBtn = document.getElementById('close-register');
+    const popup = document.getElementById('register-popup');
+
+    openBtn.addEventListener('click', () => popup.style.display = 'flex');
+    closeBtn.addEventListener('click', () => popup.style.display = 'none');
+    window.addEventListener('click', (e) => {
+      if (e.target === popup) popup.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>

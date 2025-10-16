@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echoes of Hope</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="quotes.html">Quotes</a></li>
+      <li><a href="stories.html">Stories</a></li>
+    </ul>
+
+    <div class="nav-center">ECHOES OF HOPE</div>
+
+    <ul class="nav-right">
+      <li><a href="about.html">About</a></li>
+
+
+      {% if session.username %}
+        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
+      {% else %}
+        <li><a class="btn" href="{{ url_for('register') }}">Sign Up</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-left">
+      <img src="{{ url_for('static', filename='background.jpg') }}" alt="Books and Writing">
+    </div>
+
+    <div class="hero-right">
+      <h1>Welcome to Echoes of Hope</h1>
+      <p>
+        Where whispers of truth and tales untold<br>
+        Become echoes that warm the soul.<br>
+        In every word, a seed is sown—<br>
+        Of strength, of love, of dreams long grown.
+      </p>
+
+      {% if session.username %}
+        <a href="{{ url_for('home') }}"><button class="btn main-btn">Go to Home</button></a>
+      {% else %}
+        <a href="{{ url_for('register') }}"><button class="btn main-btn">SIGN UP</button></a>
+      {% endif %}
+
+      <p class="subtext">
+        Sign in to share your light. And let your story<br>
+        become someone’s sunrise.
+      </p>
+    </div>
+  </section>
+
+</body>
+</html>
