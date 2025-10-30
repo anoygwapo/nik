@@ -177,3 +177,46 @@ body {
   background-color: #27ae60;
   color: #fff;
 }
+/* FOLLOW BUTTON */
+.follow-form {
+  margin-top: 10px;
+}
+
+.follow-btn {
+  background-color: #1da1f2; /* X-style blue */
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.follow-btn:hover {
+  background-color: #0d8de1;
+  transform: translateY(-1px);
+}
+
+/* When already following */
+.follow-btn.following {
+  background-color: #e4e6eb;
+  color: #050505;
+  border: 1px solid #ccc;
+}
+
+.follow-btn.following:hover {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+}
+
+.follow-btn.following:hover::after {
+  content: 'Unfollow';
+  font-weight: 600;
+}
+
+.follow-btn.following:hover {
+  content: none;
+}

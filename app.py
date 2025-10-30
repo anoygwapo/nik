@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, g
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -58,10 +58,17 @@ def init_db():
                     followed TEXT NOT NULL
                 )''')
 
+    # LIKES
+    c.execute('''CREATE TABLE IF NOT EXISTS likes (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    post_id INTEGER NOT NULL,
+                    username TEXT NOT NULL,
+                    FOREIGN KEY (post_id) REFERENCES posts(id)
+                )''')
+
     conn.commit()
     conn.close()
 
-# Always initialize DB to ensure all tables exist
 init_db()
 
 # ---------------- HELPER FUNCTIONS ----------------
@@ -78,7 +85,6 @@ def get_posts(post_type=None, username=None):
         params.append(username)
 
     query += " ORDER BY created_at DESC"
-
     posts_data = conn.execute(query, params).fetchall()
     posts = []
 
@@ -86,12 +92,18 @@ def get_posts(post_type=None, username=None):
         comments = conn.execute(
             "SELECT username, text FROM comments WHERE post_id=? ORDER BY created_at", (p["id"],)
         ).fetchall()
+
+        likes_count = conn.execute(
+            "SELECT COUNT(*) FROM likes WHERE post_id=?", (p["id"],)
+        ).fetchone()[0]
+
         posts.append({
             "id": p["id"],
             "username": p["username"],
             "type": p["type"],
             "text": p["content"],
-            "comments": comments
+            "comments": comments,
+            "likes": likes_count
         })
     return posts
 
@@ -152,8 +164,20 @@ def logout():
 def home():
     if 'username' not in session:
         return redirect(url_for('login'))
+
+    conn = get_db()
     posts = get_posts()
-    return render_template("home.html", posts=posts)
+
+    # Get all users (for "People You May Know")
+    users = conn.execute("SELECT id, username FROM users").fetchall()
+
+    # Get list of who current user follows
+    following_rows = conn.execute(
+        "SELECT followed FROM follows WHERE follower=?", (session['username'],)
+    ).fetchall()
+    following = [f['followed'] for f in following_rows]
+
+    return render_template("home.html", posts=posts, users=users, following=following)
 
 # ---------- CREATE POST ----------
 @app.route('/create_post', methods=['POST'])
@@ -212,29 +236,29 @@ def share_post(post_id):
     flash(f"You shared {post['username']}'s {post['type']}!", "success")
     return redirect(url_for('home'))
 
-# ---------- FOLLOW ----------
-@app.route('/follow/<username>')
+# ---------- FOLLOW / UNFOLLOW ----------
+@app.route('/follow/<username>', methods=['POST'])
 def follow(username):
     if 'username' not in session or username == session['username']:
         return redirect(url_for('home'))
 
     conn = get_db()
+    follower = session['username']
+
     existing = conn.execute(
         "SELECT * FROM follows WHERE follower=? AND followed=?",
-        (session['username'], username)
+        (follower, username)
     ).fetchone()
 
     if existing:
-        conn.execute("DELETE FROM follows WHERE follower=? AND followed=?",
-                     (session['username'], username))
+        conn.execute("DELETE FROM follows WHERE follower=? AND followed=?", (follower, username))
         flash(f"You unfollowed {username}.", "info")
     else:
-        conn.execute("INSERT INTO follows (follower, followed) VALUES (?, ?)",
-                     (session['username'], username))
+        conn.execute("INSERT INTO follows (follower, followed) VALUES (?, ?)", (follower, username))
         flash(f"You followed {username}!", "success")
 
     conn.commit()
-    return redirect(url_for('profile', username=username))
+    return redirect(request.referrer or url_for('home'))
 
 # ---------- PROFILE ----------
 @app.route('/profile/<username>')
@@ -259,6 +283,56 @@ def profile(username):
     return render_template("profile.html", user=user, posts=posts,
                            followers=followers, following=following,
                            is_following=is_following)
+
+# ---------- LIKE ----------
+@app.route('/like/<int:post_id>', methods=['POST'])
+def like(post_id):
+    if 'username' not in session:
+        return jsonify({'error': 'Login required'}), 403
+
+    username = session['username']
+    conn = get_db()
+
+    existing = conn.execute(
+        "SELECT * FROM likes WHERE post_id=? AND username=?",
+        (post_id, username)
+    ).fetchone()
+
+    if existing:
+        # Unlike
+        conn.execute("DELETE FROM likes WHERE post_id=? AND username=?", (post_id, username))
+    else:
+        # Like
+        conn.execute("INSERT INTO likes (post_id, username) VALUES (?, ?)", (post_id, username))
+
+    conn.commit()
+
+    # Return updated like count
+    total_likes = conn.execute(
+        "SELECT COUNT(*) FROM likes WHERE post_id=?", (post_id,)
+    ).fetchone()[0]
+
+    return jsonify({'likes': total_likes})
+
+# ---------- AJAX COMMENT ----------
+@app.route('/comment/<int:post_id>', methods=['POST'])
+def comment(post_id):
+    if 'username' not in session:
+        return jsonify({'error': 'Login required'}), 403
+
+    data = request.get_json()
+    text = data.get('text', '').strip()
+    if not text:
+        return jsonify({'error': 'Empty comment'}), 400
+
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO comments (post_id, username, text) VALUES (?, ?, ?)",
+        (post_id, session['username'], text)
+    )
+    conn.commit()
+
+    return jsonify({'user': session['username'], 'text': text})
 
 # ---------- STORIES ----------
 @app.route('/stories')

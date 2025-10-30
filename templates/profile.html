@@ -4,24 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ user['username'] }} - Profile | Echoes of Hope</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #f9f9f7;
-      color: #222;
-      font-family: 'Open Sans', sans-serif;
+      background-color: #f0f2f5;
+      font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
+      color: #1c1e21;
     }
+
+    /* ===== NAVBAR ===== */
     .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #fffaf0;
-      padding: 15px 50px;
-      border-bottom: 2px solid #e7d9b9;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background-color: #ffffff;
+      padding: 10px 40px;
+      border-bottom: 1px solid #dddfe2;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
+
     .navbar ul {
       list-style: none;
       display: flex;
@@ -29,113 +35,175 @@
       margin: 0;
       padding: 0;
     }
+
     .navbar a {
       text-decoration: none;
-      color: #333;
+      color: #1c1e21;
       font-weight: 500;
-      transition: color 0.3s;
+      transition: color 0.2s;
     }
-    .navbar a:hover,
-    .navbar a.active {
-      color: #0077b6;
+
+    .navbar a:hover {
+      color: #1877f2;
     }
+
     .nav-center {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: #004c6d;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #1877f2;
+      letter-spacing: 0.5px;
     }
+
     .btn {
-      background-color: #0077b6;
+      background-color: #1877f2;
       color: #fff;
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: 6px;
-      transition: background 0.3s;
       text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
     }
     .btn:hover {
-      background-color: #0096c7;
+      background-color: #166fe5;
     }
+
+    /* ===== LAYOUT ===== */
     .home-container {
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 30px;
-      padding: 30px 80px;
+      grid-template-columns: 300px 1fr;
+      gap: 25px;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
+
+    /* ===== SIDEBAR ===== */
     .sidebar {
-      background: #fffaf0;
+      background: #fff;
+      border-radius: 10px;
       padding: 20px;
-      border-radius: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
       text-align: center;
-      border: 1px solid #e7d9b9;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
+
     .sidebar img {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      margin-bottom: 15px;
+      object-fit: cover;
+      margin-bottom: 10px;
     }
+
     .sidebar h3 {
-      margin: 0;
-      color: #004c6d;
+      margin: 5px 0 8px;
+      font-size: 1.3rem;
     }
+
     .sidebar p {
       color: #555;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
     }
+
     .stats {
       display: flex;
       justify-content: space-around;
-      margin-bottom: 15px;
+      margin-top: 15px;
+      border-top: 1px solid #e4e6eb;
+      padding-top: 10px;
     }
+
     .stats div {
       text-align: center;
     }
+
     .stats strong {
       display: block;
-      font-size: 1.2rem;
-      color: #004c6d;
+      font-size: 1.1rem;
+      color: #1c1e21;
     }
+
+    /* ===== FEED ===== */
     .feed {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-    .post {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #e8e8e8;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    .feed h2 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #050505;
     }
+
+    .post {
+      background: #fff;
+      padding: 16px 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .post:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
     .post-header {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 10px;
     }
+
     .post-header img {
       width: 45px;
       height: 45px;
       border-radius: 50%;
+      object-fit: cover;
     }
+
+    .post-header span {
+      font-weight: 600;
+      color: #050505;
+    }
+
     .post-type-label {
-      background: #ffd166;
-      color: #222;
+      background: #e7f3ff;
+      color: #1877f2;
       font-size: 0.8rem;
       padding: 3px 8px;
       border-radius: 5px;
+      margin-left: auto;
     }
+
     .post-body {
-      margin: 10px 0;
       font-size: 1rem;
+      color: #1c1e21;
       line-height: 1.5;
-      color: #333;
+    }
+
+    .no-posts {
+      background: #fff;
+      text-align: center;
+      padding: 30px;
+      border-radius: 10px;
+      color: #555;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    @media (max-width: 900px) {
+      .home-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        order: 2;
+      }
     }
   </style>
 </head>
-
 <body>
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -159,7 +227,7 @@
   <!-- MAIN CONTENT -->
   <div class="home-container">
 
-    <!-- SIDEBAR (USER INFO) -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
       <img src="{{ url_for('static', filename=user['avatar']) }}" alt="Avatar">
       <h3>{{ user['username'] }}</h3>
@@ -183,9 +251,9 @@
       </div>
     </div>
 
-    <!-- FEED (USER POSTS) -->
+    <!-- FEED -->
     <div class="feed">
-      <h2 style="color:#004c6d;">{{ user['username'] }}’s Posts</h2>
+      <h2>{{ user['username'] }}’s Posts</h2>
       {% for post in posts %}
         <div class="post">
           <div class="post-header">
@@ -196,7 +264,7 @@
           <div class="post-body">{{ post.text }}</div>
         </div>
       {% else %}
-        <p>No posts yet.</p>
+        <div class="no-posts">No posts yet.</div>
       {% endfor %}
     </div>
   </div>

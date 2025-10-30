@@ -3,243 +3,274 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Echoes of Hope - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
+  <title>Home | Echoes of Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #1877f2;
+      --light-bg: #f0f2f5;
+      --card-bg: #fff;
+      --text-color: #333;
+      --muted: #888;
+    }
+
     body {
-      background-color: #f9f9f7;
-      color: #222;
-      font-family: 'Open Sans', sans-serif;
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif;
       margin: 0;
-      padding: 0;
+      color: var(--text-color);
     }
 
     /* NAVBAR */
     .navbar {
+      position: sticky;
+      top: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #fffaf0;
-      padding: 15px 50px;
-      border-bottom: 2px solid #e7d9b9;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 12px 40px;
+      z-index: 10;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.05);
     }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .navbar ul {
-      list-style: none;
       display: flex;
-      gap: 25px;
+      list-style: none;
+      gap: 20px;
       margin: 0;
       padding: 0;
     }
+
     .navbar a {
       text-decoration: none;
-      color: #333;
+      color: var(--text-color);
       font-weight: 500;
       transition: color 0.3s;
     }
-    .navbar a:hover,
-    .navbar a.active {
-      color: #0077b6;
+
+    .navbar a:hover {
+      color: var(--primary);
     }
-    .nav-center {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: #004c6d;
-    }
+
     .btn {
-      background-color: #0077b6;
-      color: #fff;
+      background-color: var(--primary);
+      color: white;
       padding: 6px 14px;
       border-radius: 6px;
-      transition: background 0.3s;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.25s;
     }
+
     .btn:hover {
-      background-color: #0096c7;
+      background-color: #1463d1;
+      transform: scale(1.03);
     }
 
-    /* LAYOUT */
-    .home-container {
+    /* MAIN LAYOUT */
+    .container {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
-      padding: 30px 80px;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 25px;
+      padding: 25px 50px;
     }
 
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 15px;
+      }
+    }
+
+    /* SIDEBAR + FEED + RIGHTBAR */
+    .sidebar, .rightbar, .create-post, .post {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .sidebar h3, .rightbar h3 {
+      color: var(--primary);
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .user-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #eee;
+    }
+
+    .follow-btn {
+      background: var(--primary);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .follow-btn.following {
+      background: #e4e6eb;
+      color: #333;
+    }
+
+    /* FEED */
     .feed {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    /* CREATE POST */
-    .post-input-box {
-      background: #ffffff;
-      border: 2px solid #f1e4c2;
-      padding: 20px;
-      border-radius: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .post-input-box select,
-    .post-input-box textarea {
-      background: #fffdf5;
-      color: #333;
-      border: 1px solid #d8cfa6;
-      padding: 12px;
+    .create-post textarea {
+      width: 100%;
+      height: 80px;
       border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
       resize: none;
-      font-size: 1rem;
-    }
-    .btn-post {
-      align-self: flex-end;
-      background: #0077b6;
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      padding: 8px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .btn-post:hover {
-      background: #0096c7;
+      font-family: inherit;
+      margin-bottom: 10px;
     }
 
-    /* POSTS */
-    .post {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #e8e8e8;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    .create-post select {
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
     }
+
     .post-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
+
     .post-header img {
       width: 45px;
       height: 45px;
       border-radius: 50%;
     }
-    .post-type-label {
-      background: #ffd166;
-      color: #222;
-      font-size: 0.8rem;
-      padding: 3px 8px;
-      border-radius: 5px;
-    }
-    .post-body {
-      margin: 10px 0;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: #333;
-    }
-    .post-actions {
-      display: flex;
-      gap: 20px;
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: #0077b6;
-    }
-    .post-actions a {
-      color: #0077b6;
+
+    .post-user {
+      font-weight: 600;
+      color: var(--primary);
       text-decoration: none;
     }
-    .post-actions a:hover {
-      text-decoration: underline;
+
+    .post-type {
+      background: #e7f3ff;
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
     }
 
-    /* COMMENTS */
-    .comments {
-      background: #f3faff;
-      padding: 10px;
-      border-radius: 10px;
+    .post-body {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.6;
       margin-bottom: 10px;
     }
-    .comment {
-      padding: 5px 0;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .comment:last-child {
-      border-bottom: none;
-    }
-    .comment strong {
-      color: #004c6d;
-    }
-    .comment-form {
+
+    .post-actions {
       display: flex;
-      gap: 10px;
+      justify-content: space-around;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .post-actions span {
+      cursor: pointer;
+      display: flex;
       align-items: center;
+      gap: 5px;
+      transition: 0.3s;
     }
-    .comment-form input {
-      background: #fff;
-      border: 1px solid #ccc;
-      color: #333;
-      padding: 8px 10px;
+
+    .post-actions span:hover {
+      color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .comment-box {
+      margin-top: 10px;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+
+    .comment-box input {
+      width: 80%;
+      padding: 8px;
       border-radius: 6px;
-      font-size: 0.9rem;
-      flex: 1;
+      border: 1px solid #ccc;
     }
-    .btn-comment {
-      background: #ffd166;
-      border: none;
-      color: #333;
+
+    .comment-box button {
       padding: 8px 12px;
+      border: none;
+      background: var(--primary);
+      color: white;
       border-radius: 6px;
       cursor: pointer;
-      font-weight: 600;
-    }
-    .btn-comment:hover {
-      background: #ffe59a;
+      margin-left: 5px;
     }
 
-    /* SIDEBAR */
-    .sidebar {
-      background: #fffaf0;
-      padding: 20px;
-      border-radius: 15px;
+    footer {
       text-align: center;
-      border: 1px solid #e7d9b9;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .sidebar img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-    .sidebar h3 {
-      margin: 0;
-      color: #004c6d;
-    }
-    .sidebar p {
-      color: #555;
-      font-size: 0.95rem;
+      color: #888;
+      padding: 20px;
+      font-size: 0.85rem;
+      margin-top: 20px;
     }
   </style>
 </head>
-
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar">
-    <ul class="nav-left">
-      <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
+    <div class="logo">Echoes of Hope</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
       <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
       <li><a href="{{ url_for('stories') }}">Stories</a></li>
     </ul>
-
-    <div class="nav-center">ECHOES OF HOPE</div>
-
-    <ul class="nav-right">
+    <ul>
       {% if session.username %}
+        <li><a href="{{ url_for('profile', username=session.username) }}">{{ session.username }}</a></li>
         <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
       {% else %}
         <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
@@ -247,71 +278,142 @@
     </ul>
   </nav>
 
-  <!-- MAIN CONTENT -->
-  <div class="home-container">
-    <div class="feed">
+  <!-- MAIN -->
+  <div class="container">
 
-      <!-- CREATE POST -->
-      {% if session.username %}
-      <form class="post-input-box" action="{{ url_for('create_post') }}" method="POST">
-        <select name="type" required>
-          <option value="story">Story</option>
-          <option value="quote">Quote</option>
-        </select>
-        <textarea name="text" placeholder="Share your thoughts..." required></textarea>
-        <button type="submit" class="btn-post">Post</button>
-      </form>
-      {% endif %}
-
-      <!-- POSTS LOOP -->
-      {% for post in posts %}
-      <div class="post">
-        <div class="post-header">
-          <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
-          <a href="{{ url_for('profile', username=post.username) }}" style="color:#0077b6; text-decoration:none; font-weight:600;">
-            {{ post.username }}
-          </a>
-          <span class="post-type-label">{{ post.type | capitalize }}</span>
-        </div>
-
-        <div class="post-body">
-          <p>{{ post.text }}</p>
-        </div>
-
-        <div class="post-actions">
-          <span>❤️</span>
-          <a href="{{ url_for('share_post', post_id=post.id) }}">🔗 Share</a>
-        </div>
-
-        <div class="comments">
-          {% for c in post.comments %}
-            <div class="comment"><strong>{{ c.username }}:</strong> {{ c.text }}</div>
-          {% endfor %}
-        </div>
-
-        {% if session.username %}
-        <form class="comment-form" action="{{ url_for('post_comment') }}" method="POST">
-          <input type="hidden" name="post_id" value="{{ post.id }}">
-          <input type="text" name="text" placeholder="Write a comment..." required>
-          <button type="submit" class="btn-comment">Comment</button>
-        </form>
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <h3>People You May Know</h3>
+      {% for u in users %}
+        {% if u['username'] != session.username %}
+          <div class="user-card">
+            <div class="user-info">
+              <img src="{{ url_for('static', filename=u['avatar'] or 'default-avatar.png') }}" alt="avatar">
+              <span>{{ u['username'] }}</span>
+            </div>
+            <form action="{{ url_for('follow', username=u['username']) }}" method="POST">
+              {% if u['username'] in following %}
+                <button class="follow-btn following" type="submit">Following</button>
+              {% else %}
+                <button class="follow-btn" type="submit">Follow</button>
+              {% endif %}
+            </form>
+          </div>
         {% endif %}
-      </div>
       {% endfor %}
     </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <img src="{{ url_for('static', filename='user1.jpg') }}" alt="Profile">
-      {% if session.username %}
-        <h3>{{ session.username }}</h3>
-        <p>Welcome back! Keep spreading hope 🌻</p>
-        <a href="{{ url_for('profile', username=session.username) }}" class="btn">View Profile</a>
+    <!-- FEED -->
+    <div class="feed">
+      <div class="create-post">
+        <form action="{{ url_for('create_post') }}" method="POST">
+          <textarea name="text" placeholder="What's on your mind, {{ session.username }}?" required></textarea>
+          <select name="type">
+            <option value="quote">Quote</option>
+            <option value="story">Story</option>
+          </select>
+          <button class="btn" type="submit">Post</button>
+        </form>
+      </div>
+
+      {% for post in posts %}
+      <div class="post" data-post-id="{{ post.id }}">
+        <div class="post-header">
+          <img src="{{ url_for('static', filename='default-avatar.png') }}" alt="avatar">
+          <a href="{{ url_for('profile', username=post.username) }}" class="post-user">{{ post.username }}</a>
+          <span class="post-type">{{ post.type }}</span>
+        </div>
+
+        <div class="post-body">{{ post.text }}</div>
+
+        <div class="post-actions">
+         <span class="like-btn">❤️ <span class="like-count">{{ post.likes }}</span></span>
+
+          <span class="comment-toggle">💬 {{ post.comments|length }}</span>
+          <span class="share-btn">🔗 Share</span>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="comment-section" style="display:none;">
+          <div class="comment-list">
+            {% for c in post.comments %}
+              <p><strong>{{ c.user }}:</strong> {{ c.text }}</p>
+            {% endfor %}
+          </div>
+          <div class="comment-box">
+            <input type="text" class="comment-input" placeholder="Write a comment..." />
+            <button class="comment-btn">Post</button>
+          </div>
+        </div>
+      </div>
       {% else %}
-        <h3>Guest</h3>
-        <p>Log in to share your stories & quotes.</p>
-      {% endif %}
+        <p>No posts yet. Be the first to share hope!</p>
+      {% endfor %}
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="rightbar">
+      <h3>Trending Topics</h3>
+      <p>✨ “Hope is the thing with feathers...”</p>
+      <p>💬 #Motivation #Kindness #SelfGrowth</p>
     </div>
   </div>
+
+  <footer>© 2025 Echoes of Hope — Keep inspiring 🌻</footer>
+
+  <script>
+
+  document.querySelectorAll('.comment-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const post = btn.closest('.post');
+      const section = post.querySelector('.comment-section');
+      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const postId = btn.closest('.post').dataset.postId;
+      const res = await fetch(`/like/${postId}`, { method: 'POST' });
+      const data = await res.json();
+      if (data.likes !== undefined) {
+        btn.querySelector('.like-count').textContent = data.likes;
+      }
+    });
+  });
+
+
+  document.querySelectorAll('.comment-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const post = btn.closest('.post');
+      const postId = post.dataset.postId;
+      const input = post.querySelector('.comment-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const res = await fetch(`/comment/${postId}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (data.user) {
+        const list = post.querySelector('.comment-list');
+        list.innerHTML += `<p><strong>${data.user}:</strong> ${data.text}</p>`;
+        input.value = '';
+      }
+    });
+  });
+
+  // Share button
+  document.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const postId = btn.closest('.post').dataset.postId;
+      const link = `${window.location.origin}/post/${postId}`;
+      await navigator.clipboard.writeText(link);
+      alert('🔗 Post link copied to clipboard!');
+    });
+  });
+</script>
+
 </body>
 </html>
