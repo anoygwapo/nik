@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ user['username'] }} - Profile | Echoes of Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f7;
+      color: #222;
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fffaf0;
+      padding: 15px 50px;
+      border-bottom: 2px solid #e7d9b9;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar a:hover,
+    .navbar a.active {
+      color: #0077b6;
+    }
+    .nav-center {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #004c6d;
+    }
+    .btn {
+      background-color: #0077b6;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #0096c7;
+    }
+    .home-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      padding: 30px 80px;
+    }
+    .sidebar {
+      background: #fffaf0;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid #e7d9b9;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .sidebar img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    .sidebar h3 {
+      margin: 0;
+      color: #004c6d;
+    }
+    .sidebar p {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 15px;
+    }
+    .stats div {
+      text-align: center;
+    }
+    .stats strong {
+      display: block;
+      font-size: 1.2rem;
+      color: #004c6d;
+    }
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .post {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .post-header img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+    .post-type-label {
+      background: #ffd166;
+      color: #222;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .post-body {
+      margin: 10px 0;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
+      <li><a href="{{ url_for('stories') }}">Stories</a></li>
+    </ul>
+
+    <div class="nav-center">ECHOES OF HOPE</div>
+
+    <ul class="nav-right">
+      {% if session.username %}
+        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
+      {% else %}
+        <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="home-container">
+
+    <!-- SIDEBAR (USER INFO) -->
+    <div class="sidebar">
+      <img src="{{ url_for('static', filename=user['avatar']) }}" alt="Avatar">
+      <h3>{{ user['username'] }}</h3>
+      <p>{{ user['bio'] }}</p>
+
+      {% if session.username and session.username != user['username'] %}
+        <a class="btn" href="{{ url_for('follow', username=user['username']) }}">
+          {% if is_following %}Unfollow{% else %}Follow{% endif %}
+        </a>
+      {% endif %}
+
+      <div class="stats">
+        <div>
+          <strong>{{ followers|length }}</strong>
+          Followers
+        </div>
+        <div>
+          <strong>{{ following|length }}</strong>
+          Following
+        </div>
+      </div>
+    </div>
+
+    <!-- FEED (USER POSTS) -->
+    <div class="feed">
+      <h2 style="color:#004c6d;">{{ user['username'] }}’s Posts</h2>
+      {% for post in posts %}
+        <div class="post">
+          <div class="post-header">
+            <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
+            <span>{{ post.username }}</span>
+            <span class="post-type-label">{{ post.type }}</span>
+          </div>
+          <div class="post-body">{{ post.text }}</div>
+        </div>
+      {% else %}
+        <p>No posts yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

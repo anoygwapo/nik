@@ -4,23 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Echoes of Hope - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style-home.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background-color: #0d0d0d;
-      color: #fff;
+      background-color: #f9f9f7;
+      color: #222;
       font-family: 'Open Sans', sans-serif;
       margin: 0;
       padding: 0;
     }
+
+    /* NAVBAR */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #111;
+      background-color: #fffaf0;
       padding: 15px 50px;
-      border-bottom: 1px solid #333;
+      border-bottom: 2px solid #e7d9b9;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .navbar ul {
       list-style: none;
@@ -31,56 +34,61 @@
     }
     .navbar a {
       text-decoration: none;
-      color: #f5f5f5;
+      color: #333;
       font-weight: 500;
       transition: color 0.3s;
     }
     .navbar a:hover,
     .navbar a.active {
-      color: #ffc107;
+      color: #0077b6;
     }
     .nav-center {
       font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #f8f9fa;
+      font-size: 1.5rem;
+      color: #004c6d;
     }
     .btn {
-      background-color: #ffc107;
-      color: #000;
+      background-color: #0077b6;
+      color: #fff;
       padding: 6px 14px;
       border-radius: 6px;
       transition: background 0.3s;
+      text-decoration: none;
     }
     .btn:hover {
-      background-color: #ffdb58;
+      background-color: #0096c7;
     }
+
+    /* LAYOUT */
     .home-container {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: 30px;
       padding: 30px 80px;
     }
+
     .feed {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
+
+    /* CREATE POST */
     .post-input-box {
-      background: #1a1a1a;
+      background: #ffffff;
+      border: 2px solid #f1e4c2;
       padding: 20px;
       border-radius: 15px;
       display: flex;
       flex-direction: column;
       gap: 15px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .post-input-box select,
     .post-input-box textarea {
-      background: #2b2b2b;
-      color: #fff;
-      border: none;
+      background: #fffdf5;
+      color: #333;
+      border: 1px solid #d8cfa6;
       padding: 12px;
       border-radius: 10px;
       resize: none;
@@ -88,9 +96,9 @@
     }
     .btn-post {
       align-self: flex-end;
-      background: #ffc107;
+      background: #0077b6;
       border: none;
-      color: #000;
+      color: #fff;
       font-weight: 600;
       padding: 8px 18px;
       border-radius: 8px;
@@ -98,13 +106,16 @@
       transition: background 0.3s;
     }
     .btn-post:hover {
-      background: #ffdb58;
+      background: #0096c7;
     }
+
+    /* POSTS */
     .post {
-      background: #1a1a1a;
+      background: #ffffff;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .post-header {
       display: flex;
@@ -118,8 +129,8 @@
       border-radius: 50%;
     }
     .post-type-label {
-      background: #ffc107;
-      color: #000;
+      background: #ffd166;
+      color: #222;
       font-size: 0.8rem;
       padding: 3px 8px;
       border-radius: 5px;
@@ -128,22 +139,39 @@
       margin: 10px 0;
       font-size: 1rem;
       line-height: 1.5;
+      color: #333;
     }
     .post-actions {
       display: flex;
       gap: 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 10px;
+      color: #0077b6;
     }
+    .post-actions a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+    .post-actions a:hover {
+      text-decoration: underline;
+    }
+
+    /* COMMENTS */
     .comments {
-      background: #222;
+      background: #f3faff;
       padding: 10px;
       border-radius: 10px;
       margin-bottom: 10px;
     }
     .comment {
       padding: 5px 0;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .comment:last-child {
+      border-bottom: none;
+    }
+    .comment strong {
+      color: #004c6d;
     }
     .comment-form {
       display: flex;
@@ -151,29 +179,35 @@
       align-items: center;
     }
     .comment-form input {
-      background: #2b2b2b;
-      border: none;
-      color: #fff;
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #333;
       padding: 8px 10px;
       border-radius: 6px;
       font-size: 0.9rem;
       flex: 1;
     }
     .btn-comment {
-      background: #ffc107;
+      background: #ffd166;
       border: none;
-      color: #000;
+      color: #333;
       padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
     }
+    .btn-comment:hover {
+      background: #ffe59a;
+    }
+
+    /* SIDEBAR */
     .sidebar {
-      background: #1a1a1a;
+      background: #fffaf0;
       padding: 20px;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      border: 1px solid #e7d9b9;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .sidebar img {
       width: 90px;
@@ -183,13 +217,15 @@
     }
     .sidebar h3 {
       margin: 0;
+      color: #004c6d;
     }
     .sidebar p {
-      color: #ccc;
+      color: #555;
       font-size: 0.95rem;
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAVBAR -->
@@ -203,8 +239,6 @@
     <div class="nav-center">ECHOES OF HOPE</div>
 
     <ul class="nav-right">
-      <li><a href="about">About</a></li>
-
       {% if session.username %}
         <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
       {% else %}
@@ -216,22 +250,27 @@
   <!-- MAIN CONTENT -->
   <div class="home-container">
     <div class="feed">
+
       <!-- CREATE POST -->
+      {% if session.username %}
       <form class="post-input-box" action="{{ url_for('create_post') }}" method="POST">
         <select name="type" required>
           <option value="story">Story</option>
           <option value="quote">Quote</option>
         </select>
-        <textarea name="text" placeholder="Share your thoughts, story, or quote..." required></textarea>
+        <textarea name="text" placeholder="Share your thoughts..." required></textarea>
         <button type="submit" class="btn-post">Post</button>
       </form>
+      {% endif %}
 
       <!-- POSTS LOOP -->
       {% for post in posts %}
       <div class="post">
         <div class="post-header">
           <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
-          <span class="username">{{ post.username }}</span>
+          <a href="{{ url_for('profile', username=post.username) }}" style="color:#0077b6; text-decoration:none; font-weight:600;">
+            {{ post.username }}
+          </a>
           <span class="post-type-label">{{ post.type | capitalize }}</span>
         </div>
 
@@ -241,7 +280,7 @@
 
         <div class="post-actions">
           <span>❤️</span>
-          <span>💬</span>
+          <a href="{{ url_for('share_post', post_id=post.id) }}">🔗 Share</a>
         </div>
 
         <div class="comments">
@@ -250,13 +289,13 @@
           {% endfor %}
         </div>
 
-        <!-- COMMENT FORM -->
+        {% if session.username %}
         <form class="comment-form" action="{{ url_for('post_comment') }}" method="POST">
           <input type="hidden" name="post_id" value="{{ post.id }}">
-          <input type="text" name="username" placeholder="Your name" required>
           <input type="text" name="text" placeholder="Write a comment..." required>
           <button type="submit" class="btn-comment">Comment</button>
         </form>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
@@ -266,7 +305,8 @@
       <img src="{{ url_for('static', filename='user1.jpg') }}" alt="Profile">
       {% if session.username %}
         <h3>{{ session.username }}</h3>
-        <p>Welcome back!</p>
+        <p>Welcome back! Keep spreading hope 🌻</p>
+        <a href="{{ url_for('profile', username=session.username) }}" class="btn">View Profile</a>
       {% else %}
         <h3>Guest</h3>
         <p>Log in to share your stories & quotes.</p>
