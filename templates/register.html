@@ -3,267 +3,283 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log In — Echoes of Hope</title>
-
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+  <title>Sign In — Echoes of Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #2b2523; /* same dark tone from your navbar */
-      color: #fff;
-      margin: 0;
-      padding: 0;
+    :root {
+      --primary: #7AC7E3;
+      --accent: #FFD96A;
+      --accent-dark: #E0B14A;
+      --bg: #F6FAFB;
+      --card: #FFFDF6;
+      --gray: #A6BFD8;
+      --text-main: #1B2536;
+      --text-muted: #6D8BA8;
+      --radius: 16px;
+      --shadow-lg: 0 12px 32px #7ac7e320;
+      --shadow-md: 0 2px 8px #7ac7e310;
     }
-
-    /* Navbar (same as index) */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(120deg, var(--primary) 60%, var(--bg) 100%);
+      font-family: 'Quicksand', 'Inter', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #1e1917;
-      padding: 0.8rem 2rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      background: linear-gradient(90deg, var(--primary) 70%, var(--accent) 100%);
+      padding: 23px 50px;
+      color: #fff;
+      border-bottom: 2px solid var(--gray);
+      box-shadow: var(--shadow-md);
     }
-
-    .nav-left, .nav-right {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar a {
+    .navbar .logo { font-weight: 700;font-size:1.7rem;color:#fff;letter-spacing:1px; }
+    .navbar ul { display: flex; gap: 24px; list-style:none; margin:0;padding:0;align-items:center; }
+    .navbar a, .navbar span {
       text-decoration: none;
-      color: #f1f1f1;
+      color: #fff;
       font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .navbar a.active, .navbar a:hover {
-      color: #b88c74;
-    }
-
-    .nav-center {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 1.4rem;
-      letter-spacing: 1px;
-      color: #f6e6d8;
-    }
-
-    /* Login section */
-    .auth-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100vh - 80px);
-      background: linear-gradient(to right, #1e1917, #2d2624);
-    }
-
-    .auth-card {
-      background: #3a312d;
-      padding: 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      color: #fff;
-    }
-
-    .auth-card h2 {
-      font-family: 'Playfair Display', serif;
-      color: #f6e6d8;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-    }
-
-    .auth-card input {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
+      font-size: 1.09rem;
       border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      background-color: #4b3f3a;
-      color: #fff;
+      padding: 8px 18px;
+      transition: background .17s, color .13s;
+      cursor: pointer;
     }
-
-    .auth-card input::placeholder {
-      color: #d5c8be;
-    }
-
+    .navbar a:hover, .navbar .active { background: rgba(255,217,106,.16); color: var(--accent); }
     .btn {
-      background: #b88c74;
-      color: #1e1917;
-      border: none;
-      border-radius: 8px;
-      padding: 0.8rem;
-      width: 100%;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
+      background: var(--accent); color: #1B2536; padding:7px 19px; font-weight:700;
+      border-radius:8px; border:none; cursor:pointer; box-shadow:var(--shadow-md);transition:background .16s;margin-left:8px;
     }
-
-    .btn:hover {
-      background: #d3a88b;
-    }
-
-    p {
-      margin-top: 1rem;
-      color: #e8ded6;
-    }
-
-    p a {
-      color: #f6e6d8;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Registration Popup */
-    .register-popup {
+    .btn:hover { background: var(--accent-dark); color: #fff;}
+    /* Flash message */
+    .flash-message {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #1B2536;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      animation: fadeInOut 4s forwards;
+      z-index: 1100;
+    }
+    @keyframes fadeInOut {
+      0% {opacity: 0; transform: translate(-50%, -10px);}
+      10%, 90% {opacity: 1; transform: translate(-50%, 0);}
+      100% {opacity: 0; transform: translate(-50%, -10px);}
+    }
+    /* Center Container */
+    .center-outer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      z-index: 2000;
+      justify-content: center;
+      min-height: 0;
     }
-
-    .register-form {
-      background: #3a312d;
-      padding: 2rem 2.5rem;
-      border-radius: 16px;
+    .auth-container {
       width: 100%;
-      max-width: 450px;
-      position: relative;
-      color: #fff;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+      max-width: 430px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .register-form h2 {
-      font-family: 'Playfair Display', serif;
-      color: #f6e6d8;
-      margin-bottom: 1rem;
+    .login-card {
+      background: var(--card);
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+    .login-card h2 {
+      font-family: 'Quicksand',sans-serif;
+      margin-bottom: 1.3rem;
+      color: var(--primary);
+      font-size: 1.7rem;
+      font-weight: 700;
       text-align: center;
-      font-size: 1.6rem;
     }
-
-    .register-form input {
+    .login-card form {
       width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      background-color: #4b3f3a;
-      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
     }
+    .login-card input {
+      width: 100%; padding: 1rem; margin-bottom: 1rem; border-radius: 10px;
+      border: 1px solid var(--gray); font-size: 1.1rem; background: #f8fafd; color: var(--text-main); box-sizing: border-box;
+      transition: border .15s;
+    }
+    .login-card input:focus { border-color: var(--primary); outline: none; }
+    .login-card input::placeholder { color: #b0c7d6; }
+    .login-btn {
+      width:100%; padding: 1rem; background: var(--accent); border: none;
+      border-radius: 10px; font-weight: 700; color: #1B2536; font-size: 1.08rem; cursor: pointer; margin-top: 0.5rem;
+      transition: background .15s;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 0.5rem;
+    }
+    .login-btn:hover { background: var(--accent-dark); color:#fff;}
+    .login-card p { margin-top: 1.2rem; color: var(--text-muted); font-size: 1.08rem;}
+    .login-card p a { color: var(--primary); font-weight: 700; cursor: pointer; }
+    /* Register Popup */
+    .register-popup {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.25); backdrop-filter: blur(6px);
+      display: none; justify-content: center; align-items: center; z-index: 1000;
+    }
+    .register-box {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  padding: 2.8rem 2.3rem;
+  width: 98%;
+  max-width: 420px;
+  color: #fff;
+  text-align: center;
+  animation: fadeIn 0.4s ease-in-out;
+}
 
-    .register-form input::placeholder {
-      color: #d5c8be;
-    }
+.register-box h2 {
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  margin-bottom: 1.3rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
 
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: #b88c74;
-      cursor: pointer;
-    }
+.register-box form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 
-    .close-btn:hover {
-      color: #fff;
-    }
+.register-box input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+}
+
+.register-box input:focus {
+  background: rgba(255, 255, 255, 1);
+  outline: none;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(122, 199, 227, 0.6);
+}
+
+.register-box button.login-btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  color: #1B2536;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(255, 217, 106, 0.35);
+}
+
+.register-box button.login-btn:hover {
+  background: linear-gradient(90deg, #ffe066, #ffb703);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 217, 106, 0.45);
+}
+
+/* Animation for smooth entrance */
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
   </style>
 </head>
-
 <body>
-
-  <!-- Navbar -->
   <nav class="navbar">
-    <ul class="nav-left">
+    <div class="logo">Echoes of Hope</div>
+    <ul>
       <li><a href="{{ url_for('index') }}">Home</a></li>
-      <li><a href="#">Quotes</a></li>
-      <li><a href="#">Stories</a></li>
+      <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
+      <li><a href="{{ url_for('stories') }}">Stories</a></li>
     </ul>
-
-    <div class="nav-center">ECHOES OF HOPE</div>
-
-    <ul class="nav-right">
-      <li><a href="about.html">About</a></li>
-
+    <ul>
+      <li><a href="#">About</a></li>
+      {% if session.username %}
+        <li><a class="active" href="{{ url_for('profile', username=session.username) }}">{{ session.username }}</a></li>
+        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
+      {% else %}
+        <li><a class="active" href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
     </ul>
   </nav>
 
-  <!-- Login Section -->
-  <section class="auth-section">
-    <div class="auth-card">
-      <h2>Log In</h2>
+  <!-- Flash Message -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="flash-message">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <ul class="flashes">
-            {% for category, msg in messages %}
-              <li class="{{ category }}">{{ msg }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-
-      <form method="post" action="{{ url_for('login') }}">
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button class="btn" type="submit">Log In</button>
-      </form>
-
-      <p>Don’t have an account? <a id="open-register">Create new account</a></p>
-    </div>
-  </section>
-
-  <!-- Registration Popup -->
-  <div class="register-popup" id="register-popup">
-    <div class="register-form">
-      <button class="close-btn" id="close-register">&times;</button>
-      <h2>Create Account</h2>
-      <form method="post" action="{{ url_for('register') }}">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email address" required>
-        <input type="password" name="password" placeholder="New password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm password" required>
-        <button class="btn" type="submit">Sign Up</button>
-      </form>
+  <div class="center-outer">
+    <div class="auth-container">
+      <div class="login-card">
+        <h2>Welcome Back</h2>
+        <form method="post" action="{{ url_for('login') }}">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button class="login-btn">Log In</button>
+        </form>
+        <p>New here? <a id="open-register">Create an account</a></p>
+      </div>
     </div>
   </div>
 
+  <div class="register-popup" id="register-popup">
+    <div class="register-box">
+  <div class="close-register" id="close-register">&times;</div>
+  <h2>Create Your Account</h2>
+  <form method="post" action="{{ url_for('register') }}">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email address" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+    <button class="login-btn" type="submit">Sign Up</button>
+  </form>
+</div>
+  </div>
+
   <script>
-    const openBtn = document.getElementById('open-register');
-    const closeBtn = document.getElementById('close-register');
-    const popup = document.getElementById('register-popup');
-
-    openBtn.addEventListener('click', () => popup.style.display = 'flex');
-    closeBtn.addEventListener('click', () => popup.style.display = 'none');
-    window.addEventListener('click', (e) => {
-      if (e.target === popup) popup.style.display = 'none';
-    });
+    const openReg = document.getElementById("open-register");
+    const closeReg = document.getElementById("close-register");
+    const popup = document.getElementById("register-popup");
+    openReg.onclick = () => popup.style.display = "flex";
+    closeReg.onclick = () => popup.style.display = "none";
+    window.onclick = e => { if (e.target === popup) popup.style.display = "none"; };
   </script>
-
 </body>
 </html>

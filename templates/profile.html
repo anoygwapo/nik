@@ -4,269 +4,318 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ user['username'] }} - Profile | Echoes of Hope</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #f0f2f5;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #1c1e21;
+    :root {
+      --primary: #7AC7E3;
+      --secondary: #F6FAFB;
+      --card-bg: #FFFDF6;
+      --accent: #FFD96A;
+      --accent-dark: #E0B14A;
+      --gray: #A6BFD8;
+      --text-main: #1B2536;
+      --text-muted: #6D8BA8;
+      --border-radius: 14px;
     }
-
-    /* ===== NAVBAR ===== */
+    * { box-sizing: border-box;}
+    body {
+      background: var(--secondary);
+      font-family: "Quicksand","Inter",sans-serif;
+      margin: 0;
+      color: var(--text-main);
+      min-height:100vh;
+    }
     .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #ffffff;
-      padding: 10px 40px;
-      border-bottom: 1px solid #dddfe2;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+      color: #fff;
+      padding: 18px 50px;
+      border-bottom: 2px solid var(--gray);
+      box-shadow: 0 6px 32px #7ac7e321;
+      font-family: "Quicksand", sans-serif;
+      position: sticky;
+      top: 0;
+      z-index: 1001;
     }
 
     .navbar ul {
-      list-style: none;
       display: flex;
-      gap: 25px;
+      list-style: none;
       margin: 0;
       padding: 0;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      color: #1c1e21;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .navbar a:hover {
-      color: #1877f2;
-    }
-
-    .nav-center {
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: #1877f2;
-      letter-spacing: 0.5px;
-    }
-
-    .btn {
-      background-color: #1877f2;
-      color: #fff;
-      padding: 7px 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background-color: #166fe5;
-    }
-
-    /* ===== LAYOUT ===== */
-    .home-container {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 25px;
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    .sidebar img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-    }
-
-    .sidebar h3 {
-      margin: 5px 0 8px;
-      font-size: 1.3rem;
-    }
-
-    .sidebar p {
-      color: #555;
-      font-size: 0.9rem;
-      margin-bottom: 15px;
-    }
-
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 15px;
-      border-top: 1px solid #e4e6eb;
-      padding-top: 10px;
-    }
-
-    .stats div {
-      text-align: center;
-    }
-
-    .stats strong {
-      display: block;
-      font-size: 1.1rem;
-      color: #1c1e21;
-    }
-
-    /* ===== FEED ===== */
-    .feed {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .feed h2 {
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #050505;
-    }
-
-    .post {
-      background: #fff;
-      padding: 16px 20px;
-      border-radius: 10px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-
-    .post:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .post-header {
-      display: flex;
+      gap: 18px;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
     }
 
-    .post-header img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .post-header span {
+    .navbar a,
+    .navbar span {
+      text-decoration: none;
+      color: #fff;
       font-weight: 600;
-      color: #050505;
+      font-size: 1.05rem;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 6px 14px;
+      transition: background 0.23s, color 0.19s;
     }
 
-    .post-type-label {
-      background: #e7f3ff;
-      color: #1877f2;
-      font-size: 0.8rem;
-      padding: 3px 8px;
-      border-radius: 5px;
-      margin-left: auto;
+    .navbar a:hover,
+    .navbar .active {
+      background: rgba(255, 217, 106, 0.18);
+      color: var(--accent);
     }
 
-    .post-body {
-      font-size: 1rem;
-      color: #1c1e21;
-      line-height: 1.5;
+    .btn {background:var(--accent);color:var(--text-main);padding:7px 17px;font-weight:700;border-radius:8px;border:none;cursor:pointer;box-shadow:0 2px 10px #ffd96a29;transition:background .21s;margin-left:7px;}
+    .btn:hover {background:var(--accent-dark);color:#fff;}
+    .home-container {
+      display:grid;
+      grid-template-columns:390px 1fr;
+      gap:32px;
+      max-width:1110px;
+      margin:45px auto;
+      padding: 0 19px;
     }
+    @media(max-width:900px){
+      .home-container{grid-template-columns:1fr;}
+      .sidebar{order:2;}
+    }
+    .sidebar {
+      background:var(--card-bg);border-radius:var(--border-radius);padding:33px 21px;text-align:center;position:relative;box-shadow:0 8px 48px #ffd96a1f;margin-bottom:25px;
+    }
+    .sidebar img {width:124px;height:124px;border-radius:50%;object-fit:cover;margin-bottom:14px;border:2px solid var(--primary);}
+    .sidebar h3 {margin:7px 0 12px;font-size:1.34rem;color:var(--primary);}
+    .sidebar p {color:var(--text-muted);font-size:1.06rem;margin-bottom:19px;font-style:italic;}
+    .edit-btn {
+      position: absolute;top:12px;right:12px;background:var(--primary);color:#fff;border:none;padding:7px 18px;border-radius:8px;font-size:1.01rem;cursor:pointer;transition:background .22s;box-shadow:0 2px 8px #7ac7e119;
+    }
+    .edit-btn:hover{background:#3b90b2;}
+    .stats {display:flex;justify-content:space-around;margin-top:16px;border-top:1px solid var(--accent);padding-top:17px;font-size:1.06rem;}
+    .stats div{text-align:center;}
+    .stats strong{display:block;font-size:1.18rem;color:var(--primary);margin-bottom:2px;}
+    .stats a { color: var(--accent-dark); text-decoration: underline; font-size: 1.01rem; cursor:pointer;}
 
-    .no-posts {
-      background: #fff;
+    /* --- Modern Followers/Following Modal --- */
+    .followers-list, .following-list {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 360px;
+      max-height: 65vh;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 25px 20px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: none;
+    }
+    .followers-list.active, .following-list.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .followers-list h4, .following-list h4 {
+      color: var(--primary);
+      font-size: 1.2rem;
       text-align: center;
-      padding: 30px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    .followers-list ul, .following-list ul { list-style: none; padding: 0; margin: 0;}
+    .followers-list li, .following-list li {
+      background: #f6fafb;
+      padding: 10px 14px;
       border-radius: 10px;
-      color: #555;
-      font-size: 0.95rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      margin-bottom: 10px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .followers-list li:hover, .following-list li:hover {
+      background: #e9f7fc;
+      transform: translateY(-2px);
+    }
+    .followers-list a, .following-list a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .followers-list a:hover, .following-list a:hover { text-decoration: underline;}
+    .followers-list .btn, .following-list .btn {
+      display: block;
+      margin: 15px auto 0 auto;
+      background: var(--accent);
+      color: var(--text-main);
+      padding: 8px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: background 0.25s ease;
+    }
+    .followers-list .btn:hover, .following-list .btn:hover {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+    .modal-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(27, 37, 54, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 1500;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-bg.active {
+      display: block;
+      opacity: 1;
     }
 
-    @media (max-width: 900px) {
-      .home-container {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        order: 2;
-      }
+    /* Feed/Wall */
+    .feed { display: flex; flex-direction: column; gap:19px;}
+    .feed h2 { margin-bottom:14px;font-size:1.18rem;color:var(--primary);font-weight:700;}
+    .post { background:var(--card-bg);padding:17px 21px;border-radius:13px;box-shadow:0 1px 18px #ecb02823;margin-bottom:13px;}
+    .post-header {display:flex;align-items:center;gap:9px;margin-bottom:11px;}
+    .post-header img {width:39px;height:39px;border-radius:50%;border:2px solid #7AC7E3;}
+    .post-header span { font-weight:600;color:var(--primary);}
+    .post-type-label {margin-left:auto;background:#E3F5FA;color:#7AC7E3;font-size:0.93rem;padding:3px 8px;border-radius:7px;}
+    .post-body {font-size:1.07rem;color:var(--text-main);line-height:1.53;}
+    .no-posts { background:var(--card-bg);text-align:center;padding:22px;border-radius:11px;color:var(--text-muted);font-size:1.02rem;box-shadow:0 1px 6px #eedc723a;}
+    .post form {margin-top:12px;}
+    .post .btn {background:var(--primary);}
+    .post .btn:hover {background:var(--accent-dark);}
+    @media(max-width:700px){
+      .navbar, .home-container{padding:16px;}
+      .sidebar,.feed,.post{padding:11px 7px;}
+      .navbar .logo{font-size:1.05rem;}
     }
   </style>
 </head>
 <body>
-  <!-- NAVBAR -->
   <nav class="navbar">
-    <ul class="nav-left">
-      <li><a href="{{ url_for('home') }}">Home</a></li>
+    <div class="logo">Echoes of Hope</div>
+    <ul>
+      <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
       <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
       <li><a href="{{ url_for('stories') }}">Stories</a></li>
     </ul>
-
-    <div class="nav-center">ECHOES OF HOPE</div>
-
-    <ul class="nav-right">
+    <ul>
       {% if session.username %}
+        <li><a class="active" href="{{ url_for('profile', username=session.username) }}">{{ session.username }}</a></li>
         <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
       {% else %}
         <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
       {% endif %}
     </ul>
   </nav>
-
-  <!-- MAIN CONTENT -->
   <div class="home-container">
-
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <img src="{{ url_for('static', filename=user['avatar']) }}" alt="Avatar">
+      <img src="{{ url_for('static', filename=user['avatar']) if user['avatar'] else url_for('static', filename='user2.jpg') }}" alt="User">
       <h3>{{ user['username'] }}</h3>
       <p>{{ user['bio'] }}</p>
-
-      {% if session.username and session.username != user['username'] %}
-        <a class="btn" href="{{ url_for('follow', username=user['username']) }}">
-          {% if is_following %}Unfollow{% else %}Follow{% endif %}
-        </a>
+      {% if session.username == user['username'] %}
+        <button class="edit-btn">Edit Profile</button>
+      {% elif session.username and session.username != user['username'] %}
+        <form method="POST" action="{{ url_for('follow', username=user['username']) }}">
+          <button class="btn" type="submit">
+            {% if is_following %}Unfollow{% else %}Follow{% endif %}
+          </button>
+        </form>
       {% endif %}
-
       <div class="stats">
         <div>
           <strong>{{ followers|length }}</strong>
-          Followers
+          <a href="#" onclick="toggleList('followers-list');return false;">Followers</a>
         </div>
         <div>
           <strong>{{ following|length }}</strong>
-          Following
+          <a href="#" onclick="toggleList('following-list');return false;">Following</a>
         </div>
       </div>
+      <div id="followers-list" class="followers-list">
+        <h4>Followers</h4>
+        <ul>
+        {% for f in followers %}
+          <li><a href="{{ url_for('profile', username=f.follower) }}">{{ f.follower }}</a></li>
+        {% endfor %}
+        </ul>
+        <button class="btn" onclick="toggleList('followers-list')">Close</button>
+      </div>
+      <div id="following-list" class="following-list">
+        <h4>Following</h4>
+        <ul>
+        {% for f in following %}
+          <li><a href="{{ url_for('profile', username=f.followed) }}">{{ f.followed }}</a></li>
+        {% endfor %}
+        </ul>
+        <button class="btn" onclick="toggleList('following-list')">Close</button>
+      </div>
     </div>
-
-    <!-- FEED -->
+    <!-- POSTS / WALL -->
     <div class="feed">
       <h2>{{ user['username'] }}’s Posts</h2>
       {% for post in posts %}
-        <div class="post">
-          <div class="post-header">
+      <div class="post">
+        <div class="post-header">
+          <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
+          <span>{{ post.username }}</span>
+        </div>
+        {% if post.caption %}
+          <p style="margin-bottom: 12px;">{{ post.caption }}</p>
+        {% endif %}
+        {% if post.original_author %}
+        <div style="border: 1px solid #cee6fa; border-radius: 10px; padding: 12px; background:#fafdff;">
+          <div class="post-header" style="margin-bottom: 8px;">
             <img src="{{ url_for('static', filename='user2.jpg') }}" alt="User">
-            <span>{{ post.username }}</span>
+            <span>{{ post.original_author }}</span>
             <span class="post-type-label">{{ post.type }}</span>
           </div>
-          <div class="post-body">{{ post.text }}</div>
+          <div class="post-body" style="color:#356;">
+            {{ post.original_text }}
+          </div>
         </div>
+        {% else %}
+        <div class="post-body">{{ post.text }}</div>
+        {% endif %}
+        <form action="{{ url_for('share_post', post_id=post.id) }}" method="POST" style="margin-top:8px;">
+          <button type="submit" class="btn" style="background:#7AC7E3;">Share</button>
+        </form>
+      </div>
       {% else %}
         <div class="no-posts">No posts yet.</div>
       {% endfor %}
     </div>
   </div>
+  <div id="modal-bg" class="modal-bg" onclick="toggleList('followers-list'); toggleList('following-list');"></div>
+  <script>
+    function toggleList(id) {
+      const list = document.getElementById(id);
+      const bg = document.getElementById('modal-bg');
+
+      if (list.classList.contains('active')) {
+        list.classList.remove('active');
+        bg.classList.remove('active');
+        setTimeout(() => { list.style.display = 'none'; bg.style.display = 'none'; }, 300);
+      } else {
+        document.querySelectorAll('.followers-list, .following-list').forEach(el => {
+          el.classList.remove('active');
+          el.style.display = 'none';
+        });
+        list.style.display = 'block';
+        bg.style.display = 'block';
+        setTimeout(() => {
+          list.classList.add('active');
+          bg.classList.add('active');
+        }, 10);
+      }
+    }
+  </script>
 </body>
 </html>

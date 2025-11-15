@@ -4,7 +4,6 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = "echoesofhope_secret"
 
-# ---------------- DATABASE CONFIG ----------------
 DATABASE = "echoes.db"
 
 def get_db():
@@ -23,7 +22,6 @@ def init_db():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
 
-    # USERS
     c.execute('''CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT UNIQUE NOT NULL,
@@ -32,14 +30,14 @@ def init_db():
                     avatar TEXT DEFAULT 'default-avatar.png'
                 )''')
 
-    # POSTS
     c.execute('''CREATE TABLE IF NOT EXISTS posts (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    username TEXT NOT NULL,
-                    content TEXT NOT NULL,
-                    type TEXT NOT NULL CHECK (type IN ('story', 'quote')),
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )''')
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        content TEXT NOT NULL,
+        type TEXT NOT NULL CHECK (type IN ('story', 'quote')),
+        original_author TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )''')
 
     # COMMENTS
     c.execute('''CREATE TABLE IF NOT EXISTS comments (
@@ -101,11 +99,18 @@ def get_posts(post_type=None, username=None):
             "id": p["id"],
             "username": p["username"],
             "type": p["type"],
-            "text": p["content"],
+            "text": p["content"],  # main post text
+            "original_author": p["original_author"],
+
+            # ✅ If the post is shared (repost), this makes the original content visible
+            "original_text": p["content"] if p["original_author"] else None,
+
             "comments": comments,
             "likes": likes_count
         })
+
     return posts
+
 
 # ---------------- ROUTES ----------------
 @app.route('/')
@@ -224,17 +229,36 @@ def post_comment():
     return redirect(url_for('home'))
 
 # ---------- SHARE POST ----------
-@app.route('/share/<int:post_id>')
+@app.route('/share/<int:post_id>', methods=['POST'])
 def share_post(post_id):
-    conn = get_db()
-    post = conn.execute("SELECT * FROM posts WHERE id=?", (post_id,)).fetchone()
+    if 'username' not in session:
+        flash("Please log in first.", "error")
+        return redirect(url_for('login'))
 
-    if not post:
+    conn = get_db()
+
+    # Get original post
+    original = conn.execute("SELECT * FROM posts WHERE id=?", (post_id,)).fetchone()
+
+    if not original:
         flash("Post not found.", "error")
         return redirect(url_for('home'))
 
-    flash(f"You shared {post['username']}'s {post['type']}!", "success")
+    # Create new post under current user but keep reference to source
+    conn.execute("""
+        INSERT INTO posts (username, content, type, original_author)
+        VALUES (?, ?, ?, ?)
+    """, (
+        session['username'],
+        original['content'],
+        original['type'],
+        original['username']
+    ))
+    conn.commit()
+
+    flash("Post shared to your profile!", "success")
     return redirect(url_for('home'))
+
 
 # ---------- FOLLOW / UNFOLLOW ----------
 @app.route('/follow/<username>', methods=['POST'])

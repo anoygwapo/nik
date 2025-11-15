@@ -3,72 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Echoes of Hope - Stories</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style-home.css') }}">
+  <title>Echoes of Hope - Quotes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { background-color: #e6e4d9; color: #fff; font-family: 'Open Sans', sans-serif; margin: 0; padding: 0; }
-    .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #111; padding: 15px 50px; border-bottom: 1px solid #333; }
-    .navbar ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
-    .navbar a { text-decoration: none; color: #f5f5f5; font-weight: 500; transition: color 0.3s; }
-    .navbar a:hover, .navbar a.active { color: #ffc107; }
-    .nav-center { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; color: #f8f9fa; }
-    .container { padding: 30px 80px; }
-    .post { background: #1a1a1a; padding: 20px; border-radius: 15px; box-shadow: 0 0 10px rgba(255,255,255,0.05); margin-bottom: 20px; }
-    .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .post-header img { width: 45px; height: 45px; border-radius: 50%; }
-    .post-type-label { background: #ffc107; color: #000; font-size: 0.8rem; padding: 3px 8px; border-radius: 5px; }
-    .post-body { margin: 10px 0; font-size: 1rem; line-height: 1.5; }
-    .comments { background: #222; padding: 10px; border-radius: 10px; margin-top: 10px; }
-    .comment { padding: 5px 0; border-bottom: 1px solid #333; }
+    :root {
+      --primary: #7AC7E3;
+      --accent: #FFD96A;
+      --accent-dark: #E0B14A;
+      --bg: #F6FAFB;
+      --card: #FFFDF6;
+      --text-main: #1B2536;
+      --text-muted: #6597b1;
+      --gray: #E3F5FA;
+      --radius: 14px;
+      --shadow-lg: 0 8px 32px #219EBC29;
+    }
+    body {
+      background: var(--bg);
+      font-family: 'Inter', 'Quicksand', sans-serif;
+      margin: 0;
+      color: var(--text-main);
+    }
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0; z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, var(--primary) 72%, var(--accent) 100%);
+      padding: 23px 45px;
+      border-bottom: 2px solid var(--primary);
+      box-shadow: 0 3px 12px var(--primary)22;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .navbar .nav-left a {
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 1.1px;
+      text-shadow: 0 2px 12px #219ebc29;
+    }
+    .nav-center {
+      display: flex;
+      gap: 28px;
+      font-size:1.08rem;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .nav-center a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      transition: background .22s, color .19s;
+    }
+    .nav-center a.active, .nav-center a:hover {
+      background: rgba(255,217,106,.19);
+      color: var(--accent);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .nav-right span, .nav-right a {
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 8px;
+    }
+    .btn {
+      background: var(--accent); color: var(--text-main);
+      font-weight: 700; font-family: 'Quicksand',sans-serif;
+      border-radius: 8px; padding: 7px 18px; border: none;
+      box-shadow: 0 2px 14px #ffd96a21;
+      cursor: pointer;
+      transition: background .21s;
+      margin-left: 7px;
+    }
+    .btn:hover { background: var(--accent-dark); color: #fff;}
+    /* CONTENT */
+    .container {
+      max-width: 700px;
+      margin: 38px auto;
+      padding: 0 7vw;
+    }
+    h2 {
+      font-family: 'Quicksand',sans-serif;
+      color: var(--primary);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-top: 0; margin-bottom:8px;
+    }
+    .container > p { color: var(--text-muted); font-size:1.08rem; }
+    .post {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.1rem 1.1rem 1.1rem;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 26px;
+      font-family: 'Inter',sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .post-header img {
+      width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border:2px solid var(--primary);
+    }
+    .post-header span {
+      font-family: 'Quicksand',sans-serif;
+      font-weight: 600;
+      font-size: 1.04rem;
+      color: var(--primary);
+    }
+    .post-type-label {
+      margin-left: auto;
+      background: var(--gray);
+      color: var(--primary);
+      font-size: 0.88rem;
+      padding: 4px 12px;
+      border-radius: 7px;
+      font-family:'Quicksand',sans-serif;
+      letter-spacing: 0.06em;
+    }
+    .post-body {
+      font-family: 'Inter',sans-serif;
+      font-style: italic;
+      color: var(--text-main);
+      font-size: 1.11rem;
+      margin-bottom: 10px;
+      padding-left: 8px;
+      border-left: 2px solid var(--primary);
+    }
+    .comments {
+      background: #f7fbff;
+      border-radius: 8px;
+      border-top: 1px solid var(--gray);
+      padding: 10px 14px 5px 14px;
+      margin-top: 13px;
+      margin-bottom: 4px;
+    }
+    .comments h4 {
+      margin: 0 0 7px 0;
+      font-family: 'Quicksand',sans-serif;
+      font-size: 1.05rem;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+    .comment {
+      padding: 5px 0;
+      border-bottom: 1px solid #edf4fa;
+      font-size:1.04rem;
+      color: var(--text-main);
+    }
+    .comment:last-child { border-bottom: none;}
+    .comment strong { color: var(--primary); font-weight: 700;}
+    @media(max-width:550px){
+      .container{padding: 0 2vw;}
+      .post-header img{width:36px;height:36px;}
+      .post{padding:0.7rem; border-radius:8px;}
+      .comments{padding:7px;}
+    }
   </style>
 </head>
 <body>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <ul class="nav-left">
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('quotes') }}">Quotes</a></li>
-      <li><a class="active" href="{{ url_for('stories') }}">Stories</a></li>
-    </ul>
-
-    <div class="nav-center">ECHOES OF HOPE</div>
-
-    <ul class="nav-right">
-      {% if 'username' in session %}
-        <li><a class="btn" href="{{ url_for('logout') }}">Log Out</a></li>
-      {% else %}
-        <li><a class="btn" href="{{ url_for('login') }}">Log In</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-
-  <!-- MAIN CONTENT -->
-  <div class="container">
-    <h2 style="font-family:'Playfair Display',serif; color:#ffc107;">Stories Collection</h2>
-    <p>Read inspiring stories shared by our community.</p>
-
-    {% for post in posts %}
-    <div class="post">
-      <div class="post-header">
-        <img src="{{ url_for('static', filename='user1.jpg') }}" alt="User">
-        <span><strong>{{ post['username'] }}</strong></span>
-        <span class="post-type-label">{{ post['type'] | capitalize }}</span>
-      </div>
-      <div class="post-body">{{ post['text'] }}</div>
-      <div class="comments">
-        <h4>Comments:</h4>
-        {% for c in post.comments %}
-          <div class="comment"><strong>{{ c['username'] }}:</strong> {{ c['text'] }}</div>
-        {% else %}
-          <p>No comments yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-    {% else %}
-      <p>No stories posted yet.</p>
-    {% endfor %}
+<nav class="navbar">
+  <div class="nav-left"><a href="{{ url_for('home') }}">Echoes of Hope</a></div>
+  <div class="nav-center">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a class="active" href="{{ url_for('quotes') }}">Quotes</a>
+    <a href="{{ url_for('stories') }}">Stories</a>
   </div>
+  <div class="nav-right">
+    {% if session.username %}
+      <a href="{{ url_for('profile', username=session.username) }}">{{ session.username }}</a>
+      <a class="btn" href="{{ url_for('logout') }}">Log Out</a>
+    {% else %}
+      <a class="btn" href="{{ url_for('login') }}">Log In</a>
+    {% endif %}
+  </div>
+</nav>
+<div class="container">
+  <h2>Quotes Collection</h2>
+  <p>Read heartfelt quotes shared by our members.</p>
+  {% for post in posts %}
+  <div class="post">
+    <div class="post-header">
+      <img src="{{ url_for('static', filename='user1.jpg') }}">
+      <span>{{ post['username'] }}</span>
+      <span class="post-type-label">{{ post['type']|capitalize }}</span>
+    </div>
+    <div class="post-body">“{{ post['text'] }}”</div>
+    <div class="comments">
+      <h4>Comments:</h4>
+      {% for c in post.comments %}
+        <div class="comment"><strong>{{ c['username'] }}:</strong> {{ c['text'] }}</div>
+      {% else %}
+        <p style="color:var(--text-muted);font-size:0.98rem;padding-left:2px;">No comments yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+    <p>No quotes posted yet.</p>
+  {% endfor %}
+</div>
 </body>
 </html>
